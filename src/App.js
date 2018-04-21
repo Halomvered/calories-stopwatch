@@ -1,8 +1,12 @@
 import React, { Component } from 'react';
-import { Segment, Grid } from 'semantic-ui-react'
+import { Segment, Grid } from 'semantic-ui-react';
+import StopwatchHeader from './components/StopwatchHeader';
+import RenderComponent from './components/RenderComponent';
 
 class App extends Component {
     render() {
+        const path = this.props.match.path;
+        
         return (
         <div className="Stopwatch-container">
             <Grid
@@ -10,16 +14,11 @@ class App extends Component {
             style={{ height: '100%' }}
             verticalAlign='middle'
             >
-                <Grid.Column style={{ maxWidth: 400 }}
+                <Grid.Column style={{ maxWidth: 450 }}
                 >
                     <Segment raised inverted secondary>
-                    <ol>
-                        <li>Test</li>
-                        <li>Test</li>
-                        <li>Test</li>
-                        <li>Test</li>
-                        <li>Test</li>
-                    </ol>
+                            <StopwatchHeader />
+                            <RenderComponent path={path}/>
                     </Segment>
                 </Grid.Column>
             </Grid>
