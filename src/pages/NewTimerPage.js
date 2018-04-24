@@ -1,11 +1,38 @@
 import React from 'react';
+import { Segment, Divider } from 'semantic-ui-react';
+import SearchActivity from '../components/SearchActivity';
+import NewActivityList from '../components/NewActivityList';
 
-const NewTimerPage = () => {
-    return (
-        <div>
-            Hello from NewTimerPage
-        </div>
-    )
+
+class NewTimerPage extends React.Component {
+    constructor(props){
+        super(props);
+        this.state = {
+            search: ''
+        }
+        this.handleChange = this.handleChange.bind(this);
+    }
+
+    handleChange = (e) => {
+        const value = e.target.value;
+        this.setState(() => ({ search: value})) 
+    }
+
+    render() {
+        const data = {...this.props.props};
+        return (
+            <Segment textAlign='left' style={{ border: '1px ridge #333', height: '54vh' }}>
+                <SearchActivity 
+                handleChange={this.handleChange} 
+                search={this.state.search}
+                />
+                <Divider />
+                <div style={{width:'100%', height: '75%', overflowX : 'scroll' }}>
+                    <NewActivityList search={this.state.search} />
+                </div>
+            </Segment>
+        )
+    }
 }
 
 export default NewTimerPage;

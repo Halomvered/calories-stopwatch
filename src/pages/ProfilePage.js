@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, Segment, Divider } from 'semantic-ui-react';
+import { Form, Divider, Segment } from 'semantic-ui-react';
 
 const options = [
     { key: 'm', text: 'Male', value: 'male', name: 'sex'},
