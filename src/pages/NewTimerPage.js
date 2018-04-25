@@ -1,4 +1,5 @@
 import React from 'react';
+import { Redirect } from 'react-router-dom';
 import { Segment, Divider } from 'semantic-ui-react';
 import SearchActivity from '../components/SearchActivity';
 import NewActivityList from '../components/NewActivityList';
@@ -20,6 +21,9 @@ class NewTimerPage extends React.Component {
 
     render() {
         const data = {...this.props.props};
+        if (data.redirect) {
+            return <Redirect push to="/" />;
+        }
         return (
             <Segment textAlign='left' style={{ border: '1px ridge #333', height: '54vh' }}>
                 <SearchActivity 
@@ -28,7 +32,10 @@ class NewTimerPage extends React.Component {
                 />
                 <Divider />
                 <div style={{width:'100%', height: '75%', overflowX : 'scroll' }}>
-                    <NewActivityList search={this.state.search} />
+                    <NewActivityList 
+                    search={this.state.search} 
+                    handleChosenActivity={data.handleChosenActivity}
+                    />
                 </div>
             </Segment>
         )

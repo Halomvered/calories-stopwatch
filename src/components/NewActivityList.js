@@ -5,18 +5,21 @@ import NewActivityItem from './NewActivityItem';
 import generateNameInfo from '../utils/generateNameInfo'
 
 const NewActivityList = (props) => {
-    const search = props.search;    
+    const search = props.search;  
     return (
         <List celled >
             {
-                METDATA.map((activity, i) => {
+                !!search &&
+                METDATA.map((activity, i) => {                  
                     const { activityName, activityInfo } = generateNameInfo(activity.description);
-                    if (activityName.indexOf(search) !== -1 && !!search) {
+                    if (activityName.indexOf(search) !== -1) {                                                
                         return (
                             <NewActivityItem 
                             key={`${activityInfo}${activity.MET}${i}`}
                             activityName={activityName}
                             activityInfo={activityInfo}
+                            activityMET={activity.MET}
+                            handleChosenActivity={props.handleChosenActivity}
                             />
                         )
                     }
