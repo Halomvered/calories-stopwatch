@@ -13,7 +13,7 @@ const NewActivityItem = (props) => {
                 })}
             >
                 <List.Content>
-                    <List.Header>{props.activityName.toUpperCase()}</List.Header>
+                    <List.Header>{props.activityName}</List.Header>
                     {props.activityInfo}.
                 </List.Content>
             </List.Item> 

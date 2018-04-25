@@ -30,3 +30,15 @@ body > div > div,
 body > div > div > div.Stopwatch-container {
   height: 100%;
 }
+
+.timer {
+  font-size: 4rem;
+  color: aliceblue;
+  margin: 0;
+}
+
+.summary {
+  font-size: 1.5rem;
+  color: aliceblue;
+  margin-top: -1rem;
+}

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Segment, Grid } from 'semantic-ui-react';
 import StopwatchHeader from './components/StopwatchHeader';
 import RenderComponent from './components/RenderComponent';
-import isObjectEmpty from './utils/isObjectEmpty';
+// import isObjectEmpty from './utils/isObjectEmpty';
 import moment from 'moment';
 import uuid from 'uuid';
 
@@ -18,14 +18,42 @@ class App extends Component {
                 height: 167,
                 weight: 70,
             },
-            currentActivity: {},
-            pastActivites: [],
+            currentActivity: this.defeaultActivity,
+            pastActivites: [
+                {
+                activityMET: 7,
+                activityName: 'Climbing',
+                activityInfo: 'Really high',
+                activityTime: 213422,
+                activityId: 0,
+                activityCreatedAt: 0
+                },
+                {
+                activityMET: 12,
+                activityName: 'Running',
+                activityInfo: 'Really fast',
+                activityTime: 2137642,
+                activityId: 0,
+                activityCreatedAt: 0
+                },
+            ],
             redirect: false,
-            activityExists: false,
+            activityExists: true,
         }
 
         this.handleChange = this.handleChange.bind(this);
         this.handleChosenActivity = this.handleChosenActivity.bind(this);
+    }
+
+    get defeaultActivity() {
+        return {
+                activityMET: 0,
+                activityName: '',
+                activityInfo: '',
+                activityTime: 0,
+                activityId: 0,
+                activityCreatedAt: 0
+        }
     }
 
     handleChange = (e, { name, value }) => {        
@@ -40,11 +68,10 @@ class App extends Component {
         const activityData = JSON.parse(e.target.closest('.item')
         .getAttribute('data'));
         const { activityMET, activityName, activityInfo } = activityData;
-        const sourceNewActivity = true;
 
         const currentActivity = {
                 activityMET,
-                activityName,
+                activityName: activityName.toUpperCase(),
                 activityInfo,
                 activityTime: 0,
                 activityId: uuid(),
@@ -54,12 +81,11 @@ class App extends Component {
         this.setState(() => ({ 
             redirect: true,
             activityExists: true,    
-        }), this.onSave(sourceNewActivity));
+        }), this.onSave(currentActivity));
 
         setTimeout(() => {
             this.setState(() => ({ 
                 redirect: false,
-                currentActivity,
             }))
         }, 500);
     };
@@ -68,11 +94,11 @@ class App extends Component {
         return () => {
             if (!this.state.activityExists) return;
             
-            const currentActivity = sourceNewActivity ? '' : {};
+            const currentActivity = sourceNewActivity ? sourceNewActivity : {};
             const latestActivity =  this.state.currentActivity;
             const pastActivites = this.state.pastActivites;
 
-            if(!isObjectEmpty(this.state.currentActivity)) pastActivites.unshift(latestActivity);
+            if(this.state.currentActivity.activityMET !== 0) pastActivites.unshift(latestActivity);
             
             this.setState(() => ({
                 currentActivity,
@@ -93,7 +119,7 @@ class App extends Component {
             verticalAlign='middle'
             >
                 <Grid.Column style={{ maxWidth: 400 }}>
-                    <Segment raised style={{ height: '70vh', backgroundColor: '#333' }}>
+                    <Segment raised style={{ height: '72vh', backgroundColor: '#333' }}>
                             <StopwatchHeader />
                             <RenderComponent 
                             path={path} 

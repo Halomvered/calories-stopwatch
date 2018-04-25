@@ -11,7 +11,7 @@ const RenderComponent = (props) => {
     const path = props.path;
     const renderComponent = componentPicker(path, stateAndMethods)
     return (
-        <div>
+        <div style={{ height: '100%' }}>
             {renderComponent}
         </div>
     )
