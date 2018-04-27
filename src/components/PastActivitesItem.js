@@ -21,8 +21,22 @@ const PastActivitesItem = (props) => {
                 </List.Description>
             </List.Content>
             <List.Content floated='right'>
-                    <Button compact size='tiny' positive>Resume</Button>
-                    <Button compact size='tiny' negative>Remove</Button>
+                    <Button 
+                    compact 
+                    size='tiny' 
+                    positive
+                    onClick={props.onResumeItem}
+                    >
+                    Resume
+                    </Button>
+                    <Button 
+                    compact 
+                    size='tiny' 
+                    negative
+                    onClick={props.onRemoveItem}
+                    >
+                    Remove
+                    </Button>
             </List.Content>
         </List.Item>
     )

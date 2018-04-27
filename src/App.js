@@ -19,30 +19,15 @@ class App extends Component {
                 weight: 70,
             },
             currentActivity: this.defeaultActivity,
-            pastActivites: [
-                {
-                activityMET: 7,
-                activityName: 'Climbing',
-                activityInfo: 'Really high',
-                activityTime: 213422,
-                activityId: 0,
-                activityCreatedAt: 0
-                },
-                {
-                activityMET: 12,
-                activityName: 'Running',
-                activityInfo: 'Really fast',
-                activityTime: 2137642,
-                activityId: 0,
-                activityCreatedAt: 0
-                },
-            ],
+            pastActivites: [],
             redirect: false,
-            activityExists: true,
+            activityExists: false,
+            isRunning: false,
         }
 
         this.handleChange = this.handleChange.bind(this);
         this.handleChosenActivity = this.handleChosenActivity.bind(this);
+        this.onStartStop = this.onStartStop.bind(this);
     }
 
     get defeaultActivity() {
@@ -69,6 +54,11 @@ class App extends Component {
         .getAttribute('data'));
         const { activityMET, activityName, activityInfo } = activityData;
 
+        const latestActivity =  this.state.currentActivity;
+        const pastActivites = this.state.pastActivites;
+
+        if(this.state.currentActivity.activityMET > 0) pastActivites.unshift(latestActivity);
+
         const currentActivity = {
                 activityMET,
                 activityName: activityName.toUpperCase(),
@@ -80,8 +70,9 @@ class App extends Component {
 
         this.setState(() => ({ 
             redirect: true,
-            activityExists: true,    
-        }), this.onSave(currentActivity));
+            activityExists: true,
+            currentActivity   
+        }));
 
         setTimeout(() => {
             this.setState(() => ({ 
@@ -90,22 +81,82 @@ class App extends Component {
         }, 500);
     };
 
-    onSave = (sourceNewActivity) => {
-        return () => {
-            if (!this.state.activityExists) return;
+    onStartStop = () => {        
+        if (!this.state.isRunning) {
+            if (this.state.currentActivity.activityMET === 0) {
+                this.setState(() => ({ 
+                    activityExists: false
+                 }));
+                 return;
+            }; 
+    
+            this.setState(() => ({ 
+                isRunning: true,
+                activityExists: true
+                }));
             
-            const currentActivity = sourceNewActivity ? sourceNewActivity : {};
-            const latestActivity =  this.state.currentActivity;
-            const pastActivites = this.state.pastActivites;
+            const currentActivity = this.state.currentActivity;
+    
+            this.timeRef = setInterval(() => {
+                currentActivity.activityTime += 100;                
+                this.setState(() => ({ currentActivity }))
+            }, 100);
 
-            if(this.state.currentActivity.activityMET !== 0) pastActivites.unshift(latestActivity);
-            
-            this.setState(() => ({
-                currentActivity,
-                pastActivites,
-            }));
-            
+        } else {
+            this.setState(() => ({ 
+                isRunning: false
+             }))
+            clearInterval(this.timeRef);
         }
+        
+    };
+
+    onSave = () => {
+        if (!this.state.activityExists) return;
+
+        const latestActivity = this.state.currentActivity;
+        const pastActivites = [latestActivity, ...this.state.pastActivites];
+
+        this.setState(() => ({
+            currentActivity: this.defeaultActivity,
+            pastActivites,
+            activityExists: false
+        }));
+    };
+
+    onReset = () => {
+        const activity = this.state.currentActivity;
+        activity.activityTime = 0;
+        this.setState(() => ({ activity }));
+    };
+
+    onRemoveItem = (e) => {
+        
+        const id = JSON.parse(e.target.closest('.item').getAttribute('data')).activityId;
+        const pastActivites = this.state.pastActivites
+        .filter((activity) => activity.activityId !== id);
+        
+        this.setState(() => ({ pastActivites }));
+    };
+
+    onResumeItem = (e) => {
+        const id = JSON.parse(e.target.closest('.item').getAttribute('data')).activityId;
+
+        const currentActivity = this.state.pastActivites
+        .filter((activity) => activity.activityId === id)[0];
+        
+        let pastActivites = this.state.pastActivites
+        .filter((activity) => activity.activityId !== id);
+
+        if (this.state.currentActivity.activityMET) {
+            pastActivites = [this.state.currentActivity, ...pastActivites];
+        };
+        
+        this.setState(() => ({
+            pastActivites,
+            currentActivity,
+            activityExists: true
+        }));        
     };
 
     render() {
@@ -124,9 +175,15 @@ class App extends Component {
                             <RenderComponent 
                             path={path} 
                             state={this.state}
+                            redirect={this.state.redirect}
+                            isRunning={this.state.isRunning}
                             handleChange={this.handleChange}
                             handleChosenActivity={this.handleChosenActivity}
-                            redirect={this.state.redirect}
+                            onStartStop={this.onStartStop}
+                            onSave={this.onSave}
+                            onReset={this.onReset}
+                            onRemoveItem={this.onRemoveItem}
+                            onResumeItem={this.onResumeItem}
                             />
                     </Segment>
                 </Grid.Column>

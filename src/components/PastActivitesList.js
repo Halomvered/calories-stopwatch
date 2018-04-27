@@ -20,6 +20,8 @@ const PastActivitesList = (props) => {
                             activityId={activity.activityId}
                             user={props.currentUser}
                             caloriesBurned={caloriesBurned(cMET, weight, activity.activityTime)}
+                            onRemoveItem={props.onRemoveItem}
+                            onResumeItem={props.onResumeItem}
                             />
                     )
                 })

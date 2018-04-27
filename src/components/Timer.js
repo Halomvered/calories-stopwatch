@@ -6,7 +6,12 @@ const Timer = (props) => {
     return (
         <div>
             <h1 className='timer'>{timeFormat(props.time)}</h1>
-            <Controls />
+            <Controls 
+            onStartStop={props.onStartStop}
+            onSave={props.onSave}
+            onReset={props.onReset}
+            isRunning={props.isRunning}            
+            />
         </div>
     )
 }

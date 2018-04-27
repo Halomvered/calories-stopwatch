@@ -20,7 +20,7 @@ const CaloriesTracker = (props) => {
                 caloriesBurned={caloriesBurned(cMET, weight, activityTime)}
                 />
                 :
-                <h5>Please create a new timer, or resume an existing one.</h5>
+                <h5 style={{ marginTop: '10px' }}>Please create a new timer, or resume an existing one.</h5>
             }
         </div>
     )
