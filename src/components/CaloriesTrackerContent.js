@@ -1,5 +1,5 @@
 import React from 'react';
-import { Label, List } from 'semantic-ui-react';
+import { List } from 'semantic-ui-react';
 
 const CaloriesTrackerContent = (props) => {
     return (

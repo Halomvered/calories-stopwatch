@@ -33,6 +33,7 @@ const StopwatchPage = (props) => {
             style={{ height: '26vh', overflowX : 'scroll' }}>
                         <PastActivitesList
                         state={data.state}
+                        pastActivites={data.state.pastActivites}
                         onRemoveItem={data.onRemoveItem}
                         onResumeItem={data.onResumeItem}
                         />

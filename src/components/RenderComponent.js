@@ -1,9 +1,14 @@
 import React from 'react';
 import componentPicker from '../utils/componentPicker';
 import stateMethodBundler from '../utils/stateMethodBundler';
+
+// eslint-disable-next-line
 import StopwatchPage from '../pages/StopwatchPage';
+// eslint-disable-next-line
 import NewTimerPage from '../pages/NewTimerPage';
+// eslint-disable-next-line
 import CalendarPage from '../pages/CalendarPage';
+// eslint-disable-next-line
 import ProfilePage from '../pages/ProfilePage';
 
 const RenderComponent = (props) => {

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, List, Label } from 'semantic-ui-react';
+import { Button, List } from 'semantic-ui-react';
 
 const PastActivitesItem = (props) => {            
     return (
@@ -20,24 +20,27 @@ const PastActivitesItem = (props) => {
                     Calories Burned: {props.caloriesBurned}
                 </List.Description>
             </List.Content>
-            <List.Content floated='right'>
-                    <Button 
-                    compact 
-                    size='tiny' 
-                    positive
-                    onClick={props.onResumeItem}
-                    >
-                    Resume
-                    </Button>
-                    <Button 
-                    compact 
-                    size='tiny' 
-                    negative
-                    onClick={props.onRemoveItem}
-                    >
-                    Remove
-                    </Button>
-            </List.Content>
+            { 
+                !props.isFromCalendar && 
+                <List.Content floated='right'>
+                        <Button 
+                        compact 
+                        size='tiny' 
+                        positive
+                        onClick={props.onResumeItem}
+                        >
+                        Resume
+                        </Button>
+                        <Button 
+                        compact 
+                        size='tiny' 
+                        negative
+                        onClick={props.onRemoveItem}
+                        >
+                        Remove
+                        </Button>
+                </List.Content>
+            }
         </List.Item>
     )
 }

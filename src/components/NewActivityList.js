@@ -11,6 +11,7 @@ const NewActivityList = (props) => {
             {
                 !!search &&
                 METDATA.map((activity, i) => {                  
+        {/* eslint-disable-next-line */}
                     const { activityName, activityInfo } = generateNameInfo(activity.description);
                     if (activityName.indexOf(search) !== -1) {                                                
                         return (

@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Segment, Grid } from 'semantic-ui-react';
 import StopwatchHeader from './components/StopwatchHeader';
 import RenderComponent from './components/RenderComponent';
-// import isObjectEmpty from './utils/isObjectEmpty';
 import moment from 'moment';
 import uuid from 'uuid';
 
@@ -19,7 +18,16 @@ class App extends Component {
                 weight: 70,
             },
             currentActivity: this.defeaultActivity,
-            pastActivites: [],
+            pastActivites: [
+                {
+                    activityMET: 5,
+                    activityName: 'From Yesterday',
+                    activityInfo: '',
+                    activityTime: 0,
+                    activityId: 0,
+                    activityCreatedAt: moment().subtract(1, 'days')
+            }
+            ],
             redirect: false,
             activityExists: false,
             isRunning: false,
@@ -116,7 +124,6 @@ class App extends Component {
 
         const latestActivity = this.state.currentActivity;
         const pastActivites = [latestActivity, ...this.state.pastActivites];
-
         this.setState(() => ({
             currentActivity: this.defeaultActivity,
             pastActivites,
@@ -159,6 +166,34 @@ class App extends Component {
         }));        
     };
 
+    onResumeDay = (e) => {        
+        const dateCreatedAt = e.target.dataset.createdat;
+        
+        let pastActivites = this.state.pastActivites
+        .filter((pastActivity) => pastActivity.activityCreatedAt.format('L') === dateCreatedAt)
+        .map((pastActivity) => {     
+
+            return {
+                ...pastActivity,
+                activityId: uuid(),
+                activityTime: 0,
+                activityCreatedAt: moment()
+            };
+        });        
+
+        pastActivites = [...pastActivites, ...this.state.pastActivites];
+        
+        this.setState(() => ({ 
+            pastActivites,
+            redirect: true,
+         }));
+
+         setTimeout(() => {
+            this.setState(() => ({ redirect: false }))
+        }, 1000);
+        
+    };
+
     render() {
         const path = this.props.match.path;
         
@@ -184,6 +219,7 @@ class App extends Component {
                             onReset={this.onReset}
                             onRemoveItem={this.onRemoveItem}
                             onResumeItem={this.onResumeItem}
+                            onResumeDay={this.onResumeDay}
                             />
                     </Segment>
                 </Grid.Column>

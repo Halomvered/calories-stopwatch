@@ -27,5 +27,3 @@ const CaloriesTracker = (props) => {
 }
 
 export default CaloriesTracker;
-
-CaloriesTrackerContent
